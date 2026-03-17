@@ -8,19 +8,25 @@ author: Parker Landon
 
 Parker Landon, Fullstack Software Engineer
 
+Currently @ Smartsheet
+
+Working on `habithatchery.com`
+
+![image:width:80%](img/habithatchery.png)
+
 <!-- end_slide -->
 
 ## YouTube
 
 Creating dev content @prkrlndn
 
-![](img/youtube.png)
+![image:width:80%](img/youtube.png)
 
 <!-- end_slide -->
 
 ## LinkedIn
 
-![](img/linkedin.png)
+![image:width:80%](img/linkedin.png)
 
 <!-- end_slide -->
 
@@ -30,9 +36,11 @@ I'm a big programming languages nerd.
 
 In my senior year of college, I wrote a research paper about using Haskell for practical software development.
 
-![](img/haskell.png)
+![image:width:80%](img/haskell.png)
 
 <!-- end_slide -->
+
+<!-- new_lines: 8 -->
 
 ## Haskell
 
@@ -51,6 +59,8 @@ I saw the value in this style of programming, and I wanted it to be applied more
 
 <!-- end_slide -->
 
+<!-- new_lines: 12 -->
+
 ## What is Effect?
 
 - (huge!) "Standard Library" for TypeScript
@@ -61,6 +71,8 @@ I saw the value in this style of programming, and I wanted it to be applied more
 
 <!-- end_slide -->
 
+<!-- new_lines: 12 -->
+
 ## Does This Even Matter Anymore?
 
 > AI is writing most of my code anyway, why should I care?
@@ -69,15 +81,19 @@ I saw the value in this style of programming, and I wanted it to be applied more
 
 <!-- end_slide -->
 
+<!-- new_lines: 8 -->
+
 ## You Should Care
 
 This is the guy who put me on.
 
-![](img/joel.png)
+![image:width:80%](img/joel.png)
 
 Your agents _will benefit_ from using Effect, too.
 
 <!-- end_slide -->
+
+<!-- new_lines: 10 -->
 
 ## Let's Play A Game
 
@@ -90,6 +106,8 @@ function divide(a: number, b: number): number;
 Even with TypeScript types, there is no way of knowing.
 
 <!-- end_slide -->
+
+<!-- new_lines: 10 -->
 
 ## Exceptions
 
@@ -106,6 +124,8 @@ function divide(a: number, b: number): number {
 
 <!-- end_slide -->
 
+<!-- new_lines: 10 -->
+
 ## Introducing Effect
 
 ```ts
@@ -118,6 +138,8 @@ function divide(a: number, b: number): Effect.Effect<number, Error, never> {
 ```
 
 <!-- end_slide -->
+
+<!-- new_lines: 8 -->
 
 ## The Effect Type
 
@@ -136,6 +158,8 @@ Effect<number, Error, never>
 > - depends on type R (more on this later)
 
 <!-- end_slide -->
+
+<!-- new_lines: 6 -->
 
 ```ts
 class DivideByZeroError extends Data.TaggedError("DivideByZeroError")<{}> {}
@@ -160,6 +184,8 @@ Effect<number, DivideByZeroError, never>
 ```
 
 <!-- end_slide -->
+
+<!-- new_lines: 4 -->
 
 ```ts
 class DivideByZeroError extends Data.TaggedError("DivideByZeroError")<{}> {}
@@ -187,6 +213,8 @@ Effect<number, DivideByZeroError | NotAnIntegerError, never>
 ```
 
 <!-- end_slide -->
+
+<!-- new_lines: 8 -->
 
 ## Composing and Running Effects
 
@@ -243,6 +271,8 @@ Effect.runSync(program(3.5, 1));
 
 <!-- end_slide -->
 
+<!-- new_lines: 10 -->
+
 ## What About Dependencies?
 
 ```
@@ -252,6 +282,8 @@ Effect<number, Error, never>
 ```
 
 <!-- end_slide -->
+
+<!-- new_lines: 8 -->
 
 ## A Bit About Dependency Injection
 
@@ -268,6 +300,8 @@ If `BookRepository` requires a database connection, how do you test this without
 Need to mock the `BookRepository` import, or...
 
 <!-- end_slide -->
+
+<!-- new_lines: 6 -->
 
 ## Dependency Injection, continued
 
@@ -291,6 +325,8 @@ await getAllBookNames(fakeBookRepository);
 ```
 
 <!-- end_slide -->
+
+<!-- new_lines: 6 -->
 
 ## Dependency Injection Containers
 
@@ -316,6 +352,8 @@ async function getAllBookNames() {
 
 <!-- end_slide -->
 
+<!-- new_lines: 8 -->
+
 ## Effect Services
 
 ```ts
@@ -332,6 +370,8 @@ export class BookRepository extends Context.Tag("BookRepository")<
 Services, defined using `Contact.Tag`, are contracts without implementation (e.g., `BookRepositoryContract`) that are bound to identifiers (e.g., `"BookRepository"`).
 
 <!-- end_slide -->
+
+<!-- new_lines: 6 -->
 
 ## Consuming Services
 
@@ -354,6 +394,8 @@ Effect<string[], never, BookRepository>
 
 <!-- end_slide -->
 
+<!-- new_lines: 12 -->
+
 ## Dependencies As Types
 
 ```ts
@@ -364,6 +406,8 @@ Effect.runSync(getAllBookNames);
 We cannot run the Effect until we've provided implementations for all dependencies.
 
 <!-- end_slide -->
+
+<!-- new_lines: 8 -->
 
 ## Providing Implementations with Layers
 
@@ -386,6 +430,8 @@ Effect.runSync(program);
 We can create implement Services as Layers and provide them to Effect operations when they run.
 
 <!-- end_slide -->
+
+<!-- new_lines: 8 -->
 
 ## So What?
 
