@@ -1,6 +1,6 @@
 ---
 title: "One Month of Effect"
-sub_title: "The Standard Library We Deserve"
+sub_title: "Building with the Standard Library that TypeScript Deserves"
 author: Parker Landon
 ---
 
