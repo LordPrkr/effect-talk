@@ -10,9 +10,7 @@ Parker Landon, Fullstack Software Engineer
 
 Currently @ Smartsheet
 
-Working on `habithatchery.com`
-
-![image:width:80%](img/habithatchery.png)
+![image:width:80%](img/linkedin.png)
 
 <!-- end_slide -->
 
@@ -24,9 +22,11 @@ Creating dev content @prkrlndn
 
 <!-- end_slide -->
 
-## LinkedIn
+## Personal Project
 
-![image:width:80%](img/linkedin.png)
+Working on `habithatchery.com`
+
+![image:width:80%](img/habithatchery.png)
 
 <!-- end_slide -->
 
@@ -59,19 +59,21 @@ I saw the value in this style of programming, and I wanted it to be applied more
 
 <!-- end_slide -->
 
-<!-- new_lines: 12 -->
+<!-- new_lines: 10 -->
 
 ## What is Effect?
 
 - (huge!) "Standard Library" for TypeScript
+  - Concurrency, Streaming, Pattern Matching, Schema, HTTP, and more!
 - Dependency Injection Framework
 - "Maximum Type-safety" - dependencies and errors _as types_
+- Observability (OpenTelemetry) integration
 
 ![](img/effect.png)
 
 <!-- end_slide -->
 
-<!-- new_lines: 12 -->
+<!-- new_lines: 10 -->
 
 ## Does This Even Matter Anymore?
 
@@ -81,7 +83,7 @@ I saw the value in this style of programming, and I wanted it to be applied more
 
 <!-- end_slide -->
 
-<!-- new_lines: 8 -->
+<!-- new_lines: 6 -->
 
 ## You Should Care
 
@@ -178,8 +180,8 @@ function divide(
 ```
          ┌─── Produces a value of type number
          │       ┌─── Fails with a DivideByZeroError
-         │       │      ┌─── Requires no dependencies
-         ▼       ▼      ▼
+         │       │
+         ▼       ▼
 Effect<number, DivideByZeroError, never>
 ```
 
@@ -214,7 +216,7 @@ Effect<number, DivideByZeroError | NotAnIntegerError, never>
 
 <!-- end_slide -->
 
-<!-- new_lines: 8 -->
+<!-- new_lines: 6 -->
 
 ## Composing and Running Effects
 
@@ -227,6 +229,11 @@ const program = Effect.gen(function* () {
 
 Effect.runSync(program); // 2
 ```
+
+The `yield*` syntax on an Effect is analogous to `await` on a Promise.
+
+- `await` "unwraps" the `T` value inside the `Promise<T>`
+- `yield*` "unwraps" the `A` value inside the `Effect<A, E, R>`, and propagates all errors `E` up.
 
 ```
 Effect<void, DivideByZeroError | NotAnIntegerError, never>
@@ -367,7 +374,7 @@ export class BookRepository extends Context.Tag("BookRepository")<
 >() {}
 ```
 
-Services, defined using `Contact.Tag`, are contracts without implementation (e.g., `BookRepositoryContract`) that are bound to identifiers (e.g., `"BookRepository"`).
+Services, defined using `Context.Tag`, are contracts without implementation (e.g., `BookRepositoryContract`) that are bound to identifiers (e.g., `"BookRepository"`).
 
 <!-- end_slide -->
 
@@ -379,10 +386,10 @@ Services, defined using `Contact.Tag`, are contracts without implementation (e.g
 // getAllBookNames: Effect.Effect<string[], never, BookRepository>
 const getAllBookNames = Effect.gen(function* () {
   const bookRepository = yield* BookRepository;
-  const books = yield* bookRepository
+  const bookNames = yield* bookRepository
     .getAllBooks()
     .pipe(Effect.andThen(Array.map((book) => book.name)));
-  return books;
+  return bookNames;
 });
 ```
 
@@ -407,17 +414,17 @@ We cannot run the Effect until we've provided implementations for all dependenci
 
 <!-- end_slide -->
 
-<!-- new_lines: 8 -->
+<!-- new_lines: 6 -->
 
 ## Providing Implementations with Layers
 
 ```ts
 const FakeBookRepository = Layer.succeed(BookRepository, {
-  getAllBooks: () => {
-    return Effect.succeed([{ name: "Fake Book 1" }, { name: "Fake Book 2" }]);
-  },
+  getAllBooks: () =>
+    Effect.succeed([{ name: "Fake Book 1" }, { name: "Fake Book 2" }]),
 });
 
+// program: Effect.Effect<string[], never, never>
 const program = getAllBookNames.pipe(
   Effect.provide(FakeBookRepository),
   Effect.tap(Console.log),
@@ -431,7 +438,7 @@ We can create implement Services as Layers and provide them to Effect operations
 
 <!-- end_slide -->
 
-<!-- new_lines: 8 -->
+<!-- new_lines: 6 -->
 
 ## So What?
 
@@ -444,3 +451,35 @@ When we use Effect,
 1. Strong types with errors and dependencies make the code self-documenting: agents know exactly what errors need to be handled and what implementations need to be provided.
 
 2. Dependency Injection patterns allow for more easily testable code: agents will have no problem hitting 80% code coverage with _meaningful tests_.
+
+<!-- end_slide -->
+
+<!-- new_lines: 6 -->
+
+## Tips for Using Effect With Agents
+
+1. Clone the official [Effect source code](https://github.com/Effect-TS/effect-smol) locally and reference it in your AGENTS.md.
+
+```md
+## Local Effect Source
+
+The Effect v4 repository is cloned to `~/.local/share/effect-solutions/effect` for reference.
+Use this to explore APIs, find usage examples, and understand implementation
+details when the documentation isn't enough.
+```
+
+2. Use [Context7](https://context7.com/) MCP for semantic search over docs.
+
+3. Use [Effect Patterns CLI](https://github.com/PaulJPhilp/EffectPatterns) for semantic search over best practices.
+
+4. [@effect/mcp-server](https://github.com/tim-smart/effect-mcp)
+
+<!-- end_slide -->
+
+<!-- new_lines: 12 -->
+
+## Resources
+
+- [Official Effect Site](https://effect.website/)
+- [effect.solutions](https://www.effect.solutions/)
+- [My Effect Content!](https://www.youtube.com/@prkrlndn)
